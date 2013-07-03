@@ -1,0 +1,28 @@
+@import "compass/css3";
+
+$corsor: crosshair;
+
+#moly_scopping_search_backpanl {
+    margin: 0px;
+    padding: 0px;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 2147483630;
+    cursor: $corsor;
+}
+
+.moly_scopping_search_subpanel {
+    position: absolute;
+    background-color: rgba(#444, 0.5);
+    cursor: $corsor;
+}
+
+.moly_scopping_search_centerpanel {
+    position: absolute;
+    outline: rgba(#444, 1.0) dashed 1px;
+    cursor: $corsor;
+}
+
