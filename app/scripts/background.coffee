@@ -1,5 +1,5 @@
 # require underscore.js
-    
+
 search = (canvas, cb) ->
     URL = 'https://www.google.com/searchbyimage/upload'
 
@@ -30,7 +30,7 @@ search = (canvas, cb) ->
         }
         , ['responseHeaders']
     )
-        
+
     xhr.send(formdata)
 
 
@@ -72,13 +72,18 @@ chrome.runtime.onMessage.addListener (request, sender, sendResponse) ->
                     image = document.createElement('img')
                     image.src = dataUrl
                     image.onload = ->
-                        width = rect.right - rect.left
-                        height = rect.bottom - rect.top
+                        devicePixelRatio = request.devicePixelRatio
+                        right = rect.right * devicePixelRatio
+                        left = rect.left * devicePixelRatio
+                        bottom = rect.bottom * devicePixelRatio
+                        top = rect.top * devicePixelRatio
+                        width = right - left
+                        height = bottom - top
                         canvas = document.createElement('canvas')
                         canvas.width = width
                         canvas.height = height
                         context = canvas.getContext('2d')
-                        context.drawImage(image, rect.left, rect.top, width, height, 0, 0, width, height)
+                        context.drawImage(image, left, top, width, height, 0, 0, width, height)
                         search canvas, (url) ->
                             if request.new_tab
                                 chrome.tabs.create({index: sender.tab.index + 1, url: url})

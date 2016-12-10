@@ -5,7 +5,7 @@
     "jquery": ">=2.0.0",
     "angular": "https://github.com/angular/bower-angular/archive/unstable.zip",
     "underscore": "~1.4.4",
-    "bootstrap": "http://twitter.github.com/bootstrap/assets/bootstrap.zip"
+    "bootstrap-css": "2.3.2"
   },
   "devDependencies": {}
 }

@@ -9,7 +9,7 @@ callbg = (cb, fnname, args...) ->
 callbgcb = (cb, fnname, args...) ->
     chrome.runtime.sendMessage {type: 'callWithCallback', fnname: fnname, args: args}, (response) ->
         cb?(response)
-        
+
 haptListen = (cb) ->
     hapt.listen( (keys, event) ->
         if not (event.target.isContentEditable or event.target.nodeName.toLowerCase() in ['textarea', 'input', 'select'])
@@ -35,8 +35,8 @@ chrome.runtime.onMessage.addListener (message, sender, sendResponse) ->
     switch message.type
         when 'toggleSelectMode'
             SelectMode.get().toggle()
-            
-            
+
+
 class SelectMode
     instance = null
 
@@ -48,7 +48,7 @@ class SelectMode
         BACK_PANEL_ID = 'moly_scopping_search_backpanl'
         SUB_PANEL_CLASS_NAME = 'moly_scopping_search_subpanel'
         CENTER_PANEL_CLASS_NAME = 'moly_scopping_search_centerpanel'
-        
+
         constructor: ->
             @backpanel = null
             @subpanels = null
@@ -77,7 +77,7 @@ class SelectMode
                         panel = document.createElement('div')
                         panel.className = SUB_PANEL_CLASS_NAME
                         @backpanel.appendChild(panel)
-                        return panel                        
+                        return panel
                     @subpanels = (createSubPanel() for i in _.range(4))
 
                 setElementRect(@subpanels[0], {left: 0, top: 0, right: @rect.right, bottom: @rect.top})
@@ -92,9 +92,9 @@ class SelectMode
                     centerpanel.className = CENTER_PANEL_CLASS_NAME
                     @backpanel.appendChild(centerpanel)
                 setElementRect(centerpanel, @rect)
-                
+
             dispatchRect = =>
-                chrome.runtime.sendMessage({type: 'dispatchRect', rect: @rect, new_tab: _settings.do_search_on_new_tab})
+                chrome.runtime.sendMessage({type: 'dispatchRect', rect: @rect, devicePixelRatio: window.devicePixelRatio, new_tab: _settings.do_search_on_new_tab})
 
             drawBackPanel()
 
@@ -111,18 +111,18 @@ class SelectMode
                     drawBackPanel()
                     drawCenterPanel()
                 @backpanel.addEventListener('mousemove', mousemove_listener)
-                    
+
                 mouseup_listener = (e) =>
                     end_point = {x: e.clientX, y: e.clientY}
                     setRect({left: start_point.x, top: start_point.y, right: end_point.x, bottom: end_point.y})
                     drawBackPanel()
-                    drawCenterPanel()  
+                    drawCenterPanel()
                     @backpanel.removeEventListener('mousemove', mousemove_listener)
                     @backpanel.removeEventListener('mouseup', mouseup_listener)
                     dispatchRect()
                     @quit()
                 @backpanel.addEventListener('mouseup', mouseup_listener)
-                
+
             @backpanel.addEventListener('mousedown', mousedown_listener)
 
         quit: =>
